@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import $ from 'jquery';
-
+import InfiniteScroll from 'react-infinite-scroller';
+import { log } from 'util';
 class Content extends React.Component {
   constructor(props) {
     super(props);
@@ -20,14 +20,17 @@ class Content extends React.Component {
     const a = this.props.data;
     const b = this.state.flag;
     const c = this.state.loading;
+     
     if (a !== b) {
       if(c==false){
         this.setState({
         loading:true
       });
+         return;    
       }
-    
       const res = await axios.get(`https://api.github.com/search/repositories?q=stars:${this.props.data}`);
+      console.log(this.state.loading);
+      
       this.setState({
         repos: res.data.items,
         flag: a,
@@ -45,13 +48,15 @@ class Content extends React.Component {
   // open_issues
 
   render() {
+    console.log('ss');
+    
     const { acolor } = this.props;
     const style = {
       modeli: {
         width: '23%', background: 'rgba(0, 0, 0, 0.08)', margin: '10px 5px', boxSizing: 'border-box',
       },
       bdiv: {
-        width: '90%', backgroundColor: '', margin: '0 auto', display: 'flex', justifyContent: 'center',flexWrap: 'wrap'
+        width: '90%',backgroundColor: '', margin: '0 auto', display: 'flex', justifyContent: 'center',flexWrap: 'wrap'
       },
       modeul: {
         display: 'flex', flexWrap: 'wrap', listStyle: 'none', justifyContent: 'space-around',
@@ -106,8 +111,8 @@ class Content extends React.Component {
     ));
     return (
       <div style={style.bdiv} >
-
-         <div>
+  
+      <div>
         {
           this.state.loading
           ? <div>loading。。。</div>
@@ -116,7 +121,7 @@ class Content extends React.Component {
         </ul> 
         }
       </div>
-                
+      
       </div>
     );
   }

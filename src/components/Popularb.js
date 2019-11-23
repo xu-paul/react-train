@@ -41,7 +41,7 @@ class Popularb extends React.Component {
         return <div style={style.bdiv}>
             <div style={style.div}>
                 <ul style={style.ul}>
-                    <li style={style.pli} ><a href={'index.html'} style={{color:'black', textDecoration:'none'}} >Popular</a></li>
+                    <li style={style.pli} ><a href='/#/'style={{color:'black', textDecoration:'none'}} >Popular</a></li>
                     <li style={{ flex: 1, cursor: 'pointer',color:'red'}}  >Battle</li>
                 </ul>
                 <span className={this.state.icon} onClick={this.changeIcon}></span>

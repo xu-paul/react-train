@@ -1,7 +1,7 @@
 import React from 'react';
 import Nav from './Nav';
 import Content from './Content';
-
+import 'font-awesome/css/font-awesome.min.css';
 class Popular extends React.Component {
   constructor(props) {
     super(props);
@@ -55,7 +55,7 @@ class Popular extends React.Component {
             <div style={style.div}>
               <ul style={style.ul}>
                 <li style={style.pli}>Popular</li>
-                <li style={style.bli}><a href="battle.html" style={style.a}>Battle</a></li>
+                <li style={style.bli}><a href="/#/battle" style={style.a}>Battle</a></li>
               </ul>
               <span className={this.state.icon} onClick={this.changeIcon} />
 

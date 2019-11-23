@@ -17,6 +17,7 @@ class Nav extends React.Component {
         const ruby = '%3E1+language:ruby&sort=stars&order=desc&type=Repositories';
         const java = '%3E1+language:java&sort=stars&order=desc&type=Repositories';
         const css = '%3E1+language:css&sort=stars&order=desc&type=Repositories';
+        const python='%3E1+language:python&sort=stars&order=desc&type=Repositories'
         const style = {
           div: {
             width: '90%', backgroundColor: '', margin: '0 auto', display: 'flex', justifyContent: 'center',
@@ -36,7 +37,7 @@ class Nav extends React.Component {
               <button style={style.li} onClick={this.dataChange.bind(this, ruby)} className={this.state.liname === ruby ? 'active' : ' '}>Ruby</button>
               <button style={style.li} onClick={this.dataChange.bind(this, java)} className={this.state.liname === java ? 'active' : ' '}>Java</button>
               <button style={style.li} onClick={this.dataChange.bind(this, css)} className={this.state.liname === css ? 'active' : ' '}>CSS</button>
-              <button style={style.li} onClick={this.dataChange.bind(this, js)}>Python</button>
+              <button style={style.li} onClick={this.dataChange.bind(this, python)} className={this.state.liname === python ? 'active' : ' '}>Python</button>
             </div>
 
           </div>
