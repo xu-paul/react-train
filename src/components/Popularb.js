@@ -1,5 +1,6 @@
 import React from 'react';
 import Battle from './Battle';
+import { HashRouter  as Router, Route ,Link} from "react-router-dom";
 class Popularb extends React.Component {
     constructor(props) {
         super(props);
@@ -34,14 +35,14 @@ class Popularb extends React.Component {
             bdiv:{ background: this.state.color, color: this.state.fontcolor },
             div:{ width: '90%', backgroundColor: '', margin: '0 auto', display: 'flex', justifyContent: 'space-between', paddingTop: '50px' },
             ul:{ display: 'flex', listStyle: 'none', fontWeight: 'bold' },
-            pli:{ flex: 1, marginRight: '10px'}
-
+            pli:{ flex: 1, marginRight: '10px'},
+             a:{color:'black', textDecoration:'none'}
 
         }
         return <div style={style.bdiv}>
             <div style={style.div}>
                 <ul style={style.ul}>
-                    <li style={style.pli} ><a href='/#/'style={{color:'black', textDecoration:'none'}} >Popular</a></li>
+                    <li style={style.pli} ><Link to="/" style={style.a} >Popular</Link></li>
                     <li style={{ flex: 1, cursor: 'pointer',color:'red'}}  >Battle</li>
                 </ul>
                 <span className={this.state.icon} onClick={this.changeIcon}></span>

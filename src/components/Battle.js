@@ -1,12 +1,15 @@
 import React from 'react';
 import $ from 'jquery';
+import './Battle.css';
+import { HashRouter  as Router, Route ,Link} from "react-router-dom";
 class Battle extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { disabled1:true,disabled2:true,display1:'flex',display2:'none',value1:'java',display3:'flex',display4:'none',value2:'java'};
+        this.state = { disabled1:true,disabled2:true,display1:'flex',display2:'none',value1:'',display3:'flex',display4:'none',value2:'',
+    displayb:'none'};
     }
-     changeValue1=(e)=>{
-            if(e.target.value){
+     changeValue1=()=>{
+            if($('.input1').val()!==''){
                 this.setState({disabled1:false});
             }
             else{
@@ -14,7 +17,7 @@ class Battle extends React.Component {
             }
      }
      changeValue2=(e)=>{
-            if(e.target.value){
+            if(e.target.value!==''){
                 this.setState({disabled2:false});
             }
             else{
@@ -23,27 +26,41 @@ class Battle extends React.Component {
      }
      changeValue3=()=>{
          const val=$('.input1').val();
-         this.setState({display1:'none',display2:'flex',value1:val});
+         this.setState({display1:'none',display2:'flex',value1:val},()=>{this.isBattle()})
+         
          
      }
      changeValue4=()=>{
-        $('.input1').val(null);
+        $('.input1').val('');
         $('.btn1').prop('disabled',true);
-        this.setState({display1:'flex',display2:'none'});
+        this.setState({display1:'flex',display2:'none'},()=>{this.isBattle()});
         
      }
      changeValue5=()=>{
          const val=$('.input2').val();
-         this.setState({display3:'none',display4:'flex',value2:val});
+         this.setState({display3:'none',display4:'flex',value2:val},()=>{this.isBattle()})
+        
          
      }
      changeValue6=()=>{
-        $('.input2').val(null);
+        $('.input2').val('');
         $('.btn2').prop('disabled',true);
-        this.setState({display3:'flex',display4:'none'});
-        
+        this.setState({display3:'flex',display4:'none'},()=>{this.isBattle()});   
+     }
+     isBattle=()=>{
+           console.log($('.user1').css('display'));
+        console.log($('.user2').css('display'));
+          if($('.user1').css('display')=='flex' && $('.user2').css('display')=='flex')
+          {
+              this.setState({displayb:'flex'});
+          }
+          else{
+            this.setState({displayb:'none'});
+          }
      }
     render() {
+      
+        
         const style={
             div1:{ width: '90%', backgroundColor: '', margin: '0 auto',paddingBottom:'200px' },
             h1:{textAlign:'center',fontSize:'35px',fontWeight:300,margin:'60px 0 30px'},
@@ -54,17 +71,24 @@ class Battle extends React.Component {
             div2:{width: '90%', backgroundColor: '', margin: '0 auto',display:'flex',justifyContent:'space-around'},
             div3:{width:'40%',display:'flex',flexDirection:'column'},
             div4:{display:this.state.display1},
-            div5:{background:'#ccc',display:this.state.display2,alignItems:'center'},
+            div5:{background:'#ccc',display:this.state.display2,alignItems:'center',height:'60px'},
             div6:{display:this.state.display3},
-            div7:{background:'#ccc',display:this.state.display4,alignItems:'center'},
+            div7:{background:'#ccc',display:this.state.display4,alignItems:'center',height:'60px'},
             img:{flex:1,width:'50px',padding:'10px'},
             a:{flex:7,textDecoration:'none',color:'red',fontSize:'20px'},
             svg:{flex:1,border:'none',background:'transparent'},
             label:{fontSize:'20px',margin:'5px 0',fontWeight:300},
             input:{flex:2,fontSize:'16px',marginRight:'10px',padding:'8px',borderRadius:'3px',border:'none',boxShadow:'inset 0 1px 2px rgba(0,0,0,0.15)',background:'rgba(0,0,0,0.02)'},
-            btn:{flex:1,fontSize:'16px',border:'none',cursor:'pointer',letterSpacing:'.25em',background:'black',color:'#c7c7c7'}
+            btn:{flex:1,fontSize:'16px',border:'none',cursor:'pointer',letterSpacing:'.25em',background:'black',color:'#c7c7c7'},
+            div8:{display:this.state.displayb,margin:'50px 0 0',justifyContent:'center'},
+            battle:{fontSize:'25px',border:'none',cursor:'pointer',letterSpacing:'.25em',background:'black',color:'#c7c7c7',width:'150px',height:'50px',borderRadius:'5px'}
             
-            
+        }
+        const playOne=this.state.value1;
+        const playTwo=this.state.value2;
+        const path={
+            pathname:"/battle/result?playOne="+playOne+"&playTwo="+playTwo,
+            state:[playOne,playTwo]
         }
        return (
               <div style={style.div1}>
@@ -90,13 +114,13 @@ class Battle extends React.Component {
                               <label htmlFor="username" style={style.label}>Player one</label>
 
                               <div style={style.div4}>
-                                  <input className="input1" onKeyUp={this.changeValue1.bind(this)} style={style.input} id="username" type="text" placeholder="github username"/> 
-                                  <button className="btn1" style={style.btn} disabled={this.state.disabled1} onClick={this.changeValue3}>submit</button>
+                                  <input className="input1" onKeyUp={this.changeValue1} style={style.input} id="username" type="text" placeholder="github username"/> 
+                                  <button className="btn1" style={style.btn} disabled={this.state.disabled1} onClick={this.changeValue3.bind(this)}>submit</button>
                               </div>
 
-                              <div style={style.div5} disabled={this.state.disabled3}>
-                                     <img style={style.img} src={`https://github.com/${this.state.value1}.png?size=50`} alt=""/>
-                                     <a style={style.a} href={`https://github.com/${this.state.value1}`}>{this.state.value1}</a>
+                              <div className='user1' style={style.div5} disabled={this.state.disabled3}>
+                                     <img style={style.img} src={`https://github.com/${playOne}.png?size=50`} alt=""/>
+                                     <a style={style.a} href={`https://github.com/${playOne}`}>{playOne}</a>
                                      <button style={style.svg} onClick={this.changeValue4}>
                                       <svg t="1574088936682" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2885" width="32" height="32"><path d="M512 0C229.376 0 0 229.376 0 512s229.376 512 512 512 512-229.376 512-512S794.624 0 512 0z m202.24 683.52c10.24 10.24 10.24 26.112 0 36.352s-26.112 10.24-36.352 0l-167.936-167.936-167.424 167.424c-10.24 10.24-26.112 10.24-36.352 0s-10.24-26.112 0-36.352l167.424-167.424-168.96-169.984c-10.24-10.24-10.24-26.112 0-36.352s26.112-10.24 36.352 0l169.472 169.472 169.984-169.984c10.24-10.24 26.112-10.24 36.352 0s10.24 26.112 0 36.352l-169.984 169.984 167.424 168.448z" fill="#CD292A" p-id="2886"></path></svg> 
                                      </button>
@@ -104,24 +128,32 @@ class Battle extends React.Component {
                           </div>  
 
                           <div style={style.div3}>
-                              <label htmlFor="username" style={style.label}>Player one</label>
+                              <label htmlFor="username" style={style.label}>Player two</label>
 
                               <div style={style.div6}>
-                                  <input className="input2" onKeyUp={this.changeValue2.bind(this)} style={style.input} id="username" type="text" placeholder="github username"/> 
-                                  <button className="btn2" style={style.btn} disabled={this.state.disabled2} onClick={this.changeValue5}>submit</button>
+                                  <input className="input2" onKeyUp={this.changeValue2} style={style.input} id="username" type="text" placeholder="github username"/> 
+                                  <button className="btn2" style={style.btn} disabled={this.state.disabled2} onClick={this.changeValue5.bind(this)}>submit</button>
                               </div>
 
-                              <div style={style.div7} disabled={this.state.disabled3}>
-                                     <img style={style.img} src={`https://github.com/${this.state.value2}.png?size=50`} alt=""/>
-                                     <a style={style.a} href={`https://github.com/${this.state.value2}`}>{this.state.value2}</a>
+                              <div className='user2' style={style.div7} disabled={this.state.disabled3}>
+                                     <img style={style.img} src={`https://github.com/${playTwo}.png?size=50`} alt=""/>
+                                     <a style={style.a} href={`https://github.com/${playTwo}`}>{playTwo}</a>
                                      <button style={style.svg} onClick={this.changeValue6}>
                                       <svg t="1574088936682" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2885" width="32" height="32"><path d="M512 0C229.376 0 0 229.376 0 512s229.376 512 512 512 512-229.376 512-512S794.624 0 512 0z m202.24 683.52c10.24 10.24 10.24 26.112 0 36.352s-26.112 10.24-36.352 0l-167.936-167.936-167.424 167.424c-10.24 10.24-26.112 10.24-36.352 0s-10.24-26.112 0-36.352l167.424-167.424-168.96-169.984c-10.24-10.24-10.24-26.112 0-36.352s26.112-10.24 36.352 0l169.472 169.472 169.984-169.984c10.24-10.24 26.112-10.24 36.352 0s10.24 26.112 0 36.352l-169.984 169.984 167.424 168.448z" fill="#CD292A" p-id="2886"></path></svg> 
                                      </button>
                               </div>
                           </div>    
                            
-                           
+                              
+                                                            
                   </div>
+                               <div style={style.div8}>
+                                    
+                                    <button style={style.battle}> 
+                                       <Link to={path} style={{color:'white',textDecoration:'none'}}>BATTLE</Link>
+                                    </button>
+                                
+                               </div>
               </div>
        )
     }
