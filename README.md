@@ -1,5 +1,5 @@
 # react-train
-  public/index.html
+  dist/index.html
     
    
        

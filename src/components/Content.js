@@ -5,7 +5,7 @@ import { log } from 'util';
 class Content extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { repos: [], flag: '%3E1&sort=stars&order=desc&type=Repositories',loading:true };
+    this.state = { repos: [], flag: '%3E1&sort=stars&order=desc&type=Repositories',loading:true,page:1,page2:1,flag2:'none' };
   }
 
   async componentDidMount() {
@@ -20,7 +20,7 @@ class Content extends React.Component {
     const a = this.props.data;
     const b = this.state.flag;
     const c = this.state.loading;
-     
+    const {page,page2,repos} =this.state;
     if (a !== b) {
       if(c==false){
         this.setState({
@@ -33,19 +33,33 @@ class Content extends React.Component {
       
       this.setState({
         repos: res.data.items,
+        page:1,
+        page2:1,
         flag: a,
         loading:false
       });
     
   }
+  if(page!=page2){
+    this.setState({
+      page: page + 1,
+    
+    });
+    const res = await axios.get(`https://api.github.com/search/repositories?q=stars:${this.props.data}&page=${page}`);
+    this.setState({
+      repos: [...repos, ...res.data.items],
+      flag2:'none'
+    });
   }
 
-  // avatar_url图片
-  // html_url github
-  // owner.html_url github详细
-  // watchers
-  // forks
-  // open_issues
+  }
+
+  loadMore=()=>{
+      const p=this.state.page2;
+      this.setState({page2:p+1,flag2:'block'});
+      console.log('11');
+      
+  }
 
   render() {
     console.log('ss');
@@ -115,13 +129,19 @@ class Content extends React.Component {
       <div>
         {
           this.state.loading
-          ? <div>loading。。。</div>
-          : <ul style={style.modeul}>
+          ?  <i className="fa fa-spinner fa-spin" />
+          :<InfiniteScroll
+          initialLoad={false}
+          loadMore={() => this.loadMore()}
+          loader={null}
+          hasMore={this.state.flag2=='none'}
+        > <ul style={style.modeul}>
           {list}
-        </ul> 
+        </ul> </InfiniteScroll> 
+         
         }
       </div>
-      
+      <div style={{textAlign:'center',fontSize:'50px',display:this.state.flag2}}><i className="fa fa-spinner fa-spin" /></div>
       </div>
     );
   }
